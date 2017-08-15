@@ -121,6 +121,19 @@ class AlertEdit(BrowserView):
         return api.portal.get()
 
 
+def in_date_range(alert):
+    """Returns True or False based on whether or not
+       alert is within the set date range. Returns
+       True when no dates are set.
+    """
+    now = datetime.datetime.now()
+    alert_start = alert.get('start') or '1999-12-25 13:12'
+    alert_end = alert.get('end') or '2050-12-25 13:12'
+    start = datetime.datetime.strptime(alert_start, '%Y-%m-%d %H:%M')
+    end = datetime.datetime.strptime(alert_end, '%Y-%m-%d %H:%M')
+    return start <= now and now <= end
+
+
 class AlertView(BrowserView):
 
     template = ViewPageTemplateFile('alert.pt')
@@ -130,13 +143,25 @@ class AlertView(BrowserView):
 
         self.alert = None  # default
         self.error = None  # default
-        id = self.request.form.get('id', None)
+        self.id = self.request.form.get('id', None)
+        self.active_alerts = []
+        self.inactive_alerts = []
 
         try:
-            self.alert = Alert(id)
-        except Exception as e:
+            self.alert = Alert(self.id)
+        except Exception:
             self.error = True
 
+        if self.id:
+            return self.template()
+
+        registry = getUtility(IRegistry)
+        registry_alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        for alert in registry_alerts.values():
+            if alert['is_active'] == 'True' and in_date_range(alert):
+                self.active_alerts.append(alert)
+            else:
+                self.inactive_alerts.append(alert)
         return self.template()
 
 

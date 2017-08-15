@@ -5,27 +5,40 @@
       i18n:domain="plone"
 	  lang="en">
 <body>
-
-
-	<metal:block fill-slot="javascript_head_slot">
-        
-        <script type="text/javascript">
-            $(document).ready(function(){
-                
-            });
-        </script>
-        
-	</metal:block>
-    
-    <metal:content-title fill-slot="content-title">
-        <h1 class="documentFirstHeading" tal:on-error="nothing">
-            <tal:block replace="python: view.alert.get('title')" />
-        </h1>
-    </metal:content-title>
     
 	<metal:content fill-slot="content-core">
-    
-        <div tal:condition="not: view/error" tal:content="structure python: view.alert.get('body')"></div>
+
+        <div tal:condition="view/id">
+            <div tal:define="level python:view.alert.get('level')"
+                 class="emergencyAlert level-${level}">
+                <div tal:content="python: view.alert.get('title')">Error Title</div>
+                <div tal:content="structure python: view.alert.get('body')">Error Body</div>
+            </div>
+        </div>
+        
+        <tal:list tal:condition="not: view/id">
+            <h2>Active Alerts</h2>
+            <div id="alerts-active">
+                <tal:warnings condition="not: view/error"
+                              repeat="alert view/active_alerts">
+                    <div class="emergencyAlert level-${alert/level}">
+                        <div tal:content="python: alert.get('title')">Error Title</div>
+                        <div tal:content="structure python: alert.get('body')">Error Body</div>
+                    </div>
+                </tal:warnings>
+            </div>
+            
+            <h2>Expired and Inactive Alerts</h2>
+            <div id="alerts-inactive">
+                <tal:warnings condition="not: view/error"
+                              repeat="alert view/inactive_alerts">
+                    <div class="emergencyAlert level-${alert/level}">
+                        <div tal:content="python: alert.get('title')">Error Title</div>
+                        <div tal:content="structure python: alert.get('body')">Error Body</div>
+                    </div>
+                </tal:warnings>
+            </div>
+        </tal:list>
     
         <div class="eas-error" tal:condition="view/error">
             No alert was found with this id
