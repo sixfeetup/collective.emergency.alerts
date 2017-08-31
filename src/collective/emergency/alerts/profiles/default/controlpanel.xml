@@ -14,6 +14,7 @@
         icon_expr=""
         visible="True"
         i18n:attributes="title">
+            <permission>Manage emergency alert</permission>
             <permission>Manage portal</permission>
     </configlet>
 

@@ -17,11 +17,13 @@
         directory="static"
         />
 
+    <include file="../permissions.zcml" />
+    
     <browser:page
         name="emergency_manager"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".controlpanel.EmergencyAlertManager"
-        permission="cmf.ManagePortal"
+        permission="alerts.ManageEmergencyMessage"
         />
       
     <browser:page
