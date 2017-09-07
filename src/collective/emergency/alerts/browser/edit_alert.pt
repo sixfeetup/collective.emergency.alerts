@@ -75,9 +75,8 @@
                 <div class="fieldErrorBox"></div>
                 <select name="form.widgets.level" 
                         id="form-widgets-level">
-                        <option class="eas-lvl-0" value="0">URGENT - 0</option>
-                        <option class="eas-lvl-1" value="1">MODERATE - 1</option>
-                        <option class="eas-lvl-2" value="2">INFORM - 2</option>
+                        <option class="eas-lvl-0" value="0">Alert</option>
+                        <option class="eas-lvl-1" value="1">Weather Alert</option>
                 </select>
             </div>
             
