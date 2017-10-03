@@ -69,7 +69,7 @@
             
             <div id="formfield-form-widgets-level" data-fieldname="form.widgets.level" class="field pat-inlinevalidation kssattr-fieldname-form.widgets.level" data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}">
                 <label class="horizontal" for="form-widgets-level">
-                Alert will disappear at: (leave empty for immediate alert)
+                Alert level:
                 <span title="Required" class="required horizontal">&nbsp;</span>
                 </label>
                 <div class="fieldErrorBox"></div>
@@ -82,7 +82,7 @@
             
             <div id="formfield-form-widgets-start" data-fieldname="form.widgets.start" class="field pat-inlinevalidation kssattr-fieldname-form.widgets.start" data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}">
                 <label class="horizontal" for="form-widgets-start">
-                Alert will appear at: (leave empty for immediate alert)
+                Alert start date: (leave empty for immediate alert)
                 <span title="Required" class="required horizontal">&nbsp;</span>
                 </label>
                 <div class="fieldErrorBox"></div>
@@ -94,7 +94,7 @@
               
             <div id="formfield-form-widgets-end" data-fieldname="form.widgets.end" class="field pat-inlinevalidation kssattr-fieldname-form.widgets.end" data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}">
                 <label class="horizontal" for="form-widgets-end">
-                Alert will disappear at: (leave empty for immediate alert)
+                Alert end date: (leave empty for immediate alert)
                 <span title="Required" class="required horizontal">&nbsp;</span>
                 </label>
                 <div class="fieldErrorBox"></div>
@@ -110,7 +110,7 @@
                 <span title="Required" class="required horizontal">&nbsp;</span>
                 </label>
                 <div class="fieldErrorBox"></div>
-                <input type="checkbox" 
+                <input type="checkbox"
                        tal:attributes="checked python: view.alert.get('is_active')=='True'"
                        name="form.widgets.active" 
                        id="form-widgets-active">

@@ -18,7 +18,7 @@ class Alert(object):
             u'start': u'',
             u'end': u'',
             u'level': u'0',
-            u'is_active': u'False',
+            u'is_active': u'True',
             u'url': u'',
         }
         if id:
