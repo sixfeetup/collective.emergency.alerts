@@ -2,11 +2,13 @@
 <rolemap>
   <roles>
     <role name="Manager"/>
+    <role name="Site Administrator"/>
     <role name="Emergency Alert Manager"/>
   </roles>
   <permissions>
     <permission name="Manage emergency alert" acquire="False">
       <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Emergency Alert Manager"/>
     </permission>
   </permissions>
