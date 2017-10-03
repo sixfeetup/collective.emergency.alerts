@@ -19,7 +19,7 @@ long_description = (
 
 setup(
     name='collective.emergency.alerts',
-    version='1.0.4',
+    version='1.0.5',
     description="Adds emergency alerts to the top of the site.  Can be from multiple feeds and local.",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
