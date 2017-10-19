@@ -30,7 +30,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="edit_alert"
         class=".alert.AlertEdit"
-        permission="cmf.ManagePortal"
+        permission="alerts.ManageEmergencyMessage"
         />
       
     <browser:page
