@@ -75,8 +75,8 @@
                 <div class="fieldErrorBox"></div>
                 <select name="form.widgets.level" 
                         id="form-widgets-level">
-                        <option class="eas-lvl-0" value="0">Alert</option>
-                        <option class="eas-lvl-1" value="1">Weather Alert</option>
+                        <option class="eas-lvl-0" value="0" tal:attributes="selected python: view.alert.get('level') == '0' and 'selected'">Alert</option>
+                        <option class="eas-lvl-1" value="1" tal:attributes="selected python: view.alert.get('level') == '1' and 'selected'">Weather Alert</option>
                 </select>
             </div>
             
