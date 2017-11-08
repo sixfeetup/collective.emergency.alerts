@@ -36,6 +36,9 @@ class Alert(object):
         if not alerts:
             alerts = {}
         alerts[self.id] = self._struct
+        alerts[self.id]['body'] = alerts[self.id]['body'].replace('\r\n', '')
+        alerts[self.id]['end'] = alerts[self.id]['end'] or u'2050-12-25 13:12'
+        alerts[self.id]['start'] = alerts[self.id]['start'] or u'1999-12-25 13:12'
         registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts'] = alerts
 
         # Force the save of a dictionary to be persistant
