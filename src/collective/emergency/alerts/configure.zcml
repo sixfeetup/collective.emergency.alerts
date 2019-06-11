@@ -12,6 +12,8 @@
   <include package=".browser" />
   <include file="permissions.zcml" />
 
+  <!-- Upgrades are handled via its own zcml file -->
+  <include file="upgrades.zcml"/>
 
   <genericsetup:registerProfile
       name="default"

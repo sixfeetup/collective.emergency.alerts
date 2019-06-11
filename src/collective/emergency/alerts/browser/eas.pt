@@ -41,7 +41,7 @@ var _EAS = {
         this._has_css = true;
         this.bytag('body').className += ' live-eas';
         var l = document.createElement('link');
-        l.href = this.check_https('${view/portal/absolute_url}/++resource++collective.emergency.alerts/eas.live.css');
+        l.href = this.check_https('${view/portal/absolute_url}/++plone++collective.emergency.alerts/eas.live.css');
         l.type = 'text/css';
         l.rel = 'stylesheet';
         this.bytag('head').appendChild(l);

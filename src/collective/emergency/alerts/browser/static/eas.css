@@ -1,4 +1,4 @@
-@import url('++resource++collective.emergency.alerts/eas.live.css');
+@import url('++plone++collective.emergency.alerts/eas.live.css');
 
 #eas-system xmp { background-color: #eccbb0; border: 1px solid #e7b184; }
 #eas-system .example { color: red; }
