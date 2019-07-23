@@ -27,6 +27,9 @@ class EASGenerator(BrowserView):
         else:
             feeds = [x.encode('ascii', 'ignore') for x in feeds]
         feeds.append(self.portal.absolute_url() + '/eas_alerts')  # add local feed
+        for i, item in enumerate(feeds):
+            if isinstance(item, unicode):
+                feeds[i] = item.encode('utf-8')
         return feeds
 
     @property
