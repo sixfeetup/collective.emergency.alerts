@@ -4,7 +4,7 @@
  <object name="user" meta_type="CMF Action Category">
   <property name="title"></property>
   <object name="emergency" meta_type="CMF Action" insert-before="logout">
-   <property name="title">Emegency Alerts</property>
+   <property name="title">Emergency Alerts</property>
    <property name="description">Manage the emergency alerts</property>
    <property
       name="url_expr">string:${globals_view/navigationRootUrl}/@@emergency_manager</property>
