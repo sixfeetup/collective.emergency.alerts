@@ -61,12 +61,12 @@
                     <a title="Toggle Alert On/Off"
                        tal:condition="python: v['is_active']=='True'" 
                        tal:attributes="href python: view.tokenize(view.portal.absolute_url() + '/edit_alert?id=' + k + '&alert.state=True')">
-                       <img src="${view/portal/absolute_url}/++resource++collective.emergency.alerts/switch-on.png" alt="State ON" />
+                       <img src="${view/portal/absolute_url}/++plone++collective.emergency.alerts/switch-on.png" alt="State ON" />
                     </a>
                     <a title="Toggle Alert On/Off"
                        tal:condition="python: v['is_active']=='False'" 
                        tal:attributes="href python: view.tokenize(view.portal.absolute_url() + '/edit_alert?id=' + k + '&alert.state=False')">
-                       <img src="${view/portal/absolute_url}/++resource++collective.emergency.alerts/switch-off.png" alt="State OFF" />
+                       <img src="${view/portal/absolute_url}/++plone++collective.emergency.alerts/switch-off.png" alt="State OFF" />
                     </a>
                     <span class="icon-controlpanel-DateAndTime eas-cursor"
                           tal:attributes="title python:view.fmt_daterange(v)">
