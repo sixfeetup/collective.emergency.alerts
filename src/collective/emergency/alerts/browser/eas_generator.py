@@ -24,12 +24,10 @@ class EASGenerator(BrowserView):
         feeds = list(registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.global_feeds']) 
         if not feeds:
             feeds = []
-        else:
-            feeds = [x.encode('ascii', 'ignore') for x in feeds]
         feeds.append(self.portal.absolute_url() + '/eas_alerts')  # add local feed
         for i, item in enumerate(feeds):
-            if isinstance(item, unicode):
-                feeds[i] = item.encode('utf-8')
+            if isinstance(item, str):
+                feeds[i] = item
         return feeds
 
     @property

@@ -24,11 +24,11 @@ class Alert(object):
         if id:
             registry = getUtility(IRegistry)
             alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
-            self.id = id.decode('utf-8')
+            self.id = id
             if self.id in alerts:
                 self._struct = alerts[self.id]
         else:
-            self.id = hashlib.sha1(str(time.time())).hexdigest().decode('utf-8')
+            self.id = hashlib.sha1(str(time.time()).encode('utf-8')).hexdigest()
 
     def save(self):
         registry = getUtility(IRegistry)
@@ -54,8 +54,6 @@ class Alert(object):
         registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts'] = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
 
     def set(self, name, value):
-        if isinstance(value, str):
-            value = value.decode('utf-8')
         self._struct[name] = value
 
     def get(self, name):

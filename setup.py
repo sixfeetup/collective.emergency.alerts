@@ -19,16 +19,16 @@ long_description = (
 
 setup(
     name='collective.emergency.alerts',
-    version='1.0.10',
+    version='1.0.12',
     description="Adds emergency alerts to the top of the site.  Can be from multiple feeds and local.",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 5.0",
+        "Framework :: Plone :: 5.2",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.7",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
@@ -46,7 +46,6 @@ setup(
         'plone.api',
         'setuptools',
         'z3c.jbot',
-        'plone.directives.form',
     ],
     extras_require={
         'test': [
