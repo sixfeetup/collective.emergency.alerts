@@ -37,8 +37,8 @@ class Alert(object):
             alerts = {}
         alerts[self.id] = self._struct
         alerts[self.id]['body'] = alerts[self.id]['body'].replace('\r\n', '')
-        alerts[self.id]['end'] = alerts[self.id]['end'] or u'2050-12-25 13:12'
-        alerts[self.id]['start'] = alerts[self.id]['start'] or u'1999-12-25 13:12'
+        alerts[self.id]['end'] = alerts[self.id]['end'] or u'2050-12-25T13:12'
+        alerts[self.id]['start'] = alerts[self.id]['start'] or u'1999-12-25T13:12'
         registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts'] = alerts
 
         # Force the save of a dictionary to be persistant
@@ -128,10 +128,10 @@ def in_date_range(alert):
        True when no dates are set.
     """
     now = datetime.datetime.now()
-    alert_start = alert.get('start') or '1999-12-25 13:12'
-    alert_end = alert.get('end') or '2050-12-25 13:12'
-    start = datetime.datetime.strptime(alert_start, '%Y-%m-%d %H:%M')
-    end = datetime.datetime.strptime(alert_end, '%Y-%m-%d %H:%M')
+    alert_start = alert.get('start') or '1999-12-25T13:12'
+    alert_end = alert.get('end') or '2050-12-25T13:12'
+    start = datetime.datetime.strptime(alert_start, '%Y-%m-%dT%H:%M')
+    end = datetime.datetime.strptime(alert_end, '%Y-%m-%dT%H:%M')
     return start <= now and now <= end
 
 
@@ -177,8 +177,8 @@ class AlertsBroadcaster(BrowserView):
         if alerts:
             for k, v in alerts.items():
                 if v['is_active'] == 'True':
-                    start = datetime.datetime.strptime(self.dict_get(v, 'start', '1999-12-25 13:12'), '%Y-%m-%d %H:%M')
-                    end = datetime.datetime.strptime(self.dict_get(v, 'end', '2050-12-25 13:12'), '%Y-%m-%d %H:%M')
+                    start = datetime.datetime.strptime(self.dict_get(v, 'start', '1999-12-25T13:12'), '%Y-%m-%dT%H:%M')
+                    end = datetime.datetime.strptime(self.dict_get(v, 'end', '2050-12-25T13:12'), '%Y-%m-%dT%H:%M')
                     if start <= now and now <= end:
                         data.append(v)
 
