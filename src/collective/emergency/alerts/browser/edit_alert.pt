@@ -86,9 +86,8 @@
                 <span title="Required" class="required horizontal">&nbsp;</span>
                 </label>
                 <div class="fieldErrorBox"></div>
-                <input type="text" tal:attributes="value python: view.alert.get('start')" 
-                        class="pat-pickadate" 
-                        name="form.widgets.start" 
+                <input type="datetime-local" tal:attributes="value python: view.alert.get('start')"
+                        name="form.widgets.start"
                         id="form-widgets-start">
             </div>
               
@@ -98,9 +97,8 @@
                 <span title="Required" class="required horizontal">&nbsp;</span>
                 </label>
                 <div class="fieldErrorBox"></div>
-                <input type="text" tal:attributes="value python: view.alert.get('end')" 
-                        class="pat-pickadate" 
-                        name="form.widgets.end" 
+                <input type="datetime-local" tal:attributes="value python: view.alert.get('end')"
+                        name="form.widgets.end"
                         id="form-widgets-end">
             </div>
             
