@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Installer for the collective.emergency.alerts package."""
 
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -37,9 +36,6 @@ setup(
     author_email='hietpasd@uwosh.edu',
     url='https://pypi.python.org/pypi/collective.emergency.alerts',
     license='GPL version 2',
-    packages=find_packages('src', exclude=['ez_setup']),
-    namespace_packages=['collective', 'collective.emergency'],
-    package_dir={'': 'src'},
     include_package_data=True,
     zip_safe=False,
     install_requires=[
