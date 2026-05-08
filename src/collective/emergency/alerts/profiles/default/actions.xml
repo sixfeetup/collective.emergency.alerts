@@ -15,7 +15,7 @@
       <property name="description">Manage the emergency alerts</property>
       <property name="url_expr">string:${globals_view/navigationRootUrl}/@@emergency_manager</property>
       <property name="link_target" />
-      <property name="icon_expr" />
+      <property name="icon_expr">string:exclamation-triangle</property>
       <property name="available_expr" />
       <property name="permissions">
         <element value="Manage emergency alert" />
