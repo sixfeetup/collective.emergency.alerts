@@ -8,26 +8,26 @@ var _EAS = {
     broadcasters : ${view/get_feeds},
 
     init : function(a,b) {
-        for( var i = 0; i < this.broadcasters.length; i++)
+        for( var i = 0; i &lt; this.broadcasters.length; i++)
             this.jsonp(this.broadcasters[i]);
     },
-    
+
     loaded : function(data) {
-        if (!this._has_css && data.length > 0)
+        if (!this._has_css && data.length &gt; 0)
             this.stylize();
-        for( var i = 0; i < data.length; i++) {
+        for( var i = 0; i &lt; data.length; i++) {
             var a = this.message(data[i].title, data[i].url, data[i].level);
             this.bytag('body').appendChild(a);
         }
     },
-    
+
     jsonp : function(url) {
         var s = document.createElement('script');
         s.type = 'text/javascript';
         s.src = this.check_https(url);
         this.bytag('head').appendChild(s);
     },
-    
+
     message : function(title, url, level) {
         var a = document.createElement('a');
         var t = document.createTextNode(title);
@@ -36,7 +36,7 @@ var _EAS = {
         a.className = 'live-eas-alert live-eas-lvl-' + level;
         return a;
     },
-    
+
     stylize : function() {
         this._has_css = true;
         this.bytag('body').className += ' live-eas';
@@ -46,19 +46,19 @@ var _EAS = {
         l.rel = 'stylesheet';
         this.bytag('head').appendChild(l);
     },
-    
+
     check_https : function(src) {
         if (document.location.protocol == 'https:')
             src = src.replace('http:', 'https:')
         return src
-    },   
-    
+    },
+
     bytag : function(t) {
         return document.getElementsByTagName(t)[0];
     },
-    
+
 }
-    
+
 function addEvent(e, a, fn) {
     if (e.addEventListener)
         e.addEventListener(a, fn, true);
@@ -68,5 +68,3 @@ function addEvent(e, a, fn) {
 addEvent(window, 'load', function(){
     _EAS.init();
 });
-
-

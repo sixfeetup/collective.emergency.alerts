@@ -1,57 +1,57 @@
-# -*- coding: utf-8 -*-
 """Installer for the collective.emergency.alerts package."""
 
 from setuptools import setup
 
 
 long_description = (
-    open('README.rst').read() +
-    '\n' +
-    'Contributors\n' +
-    '============\n' +
-    '\n' +
-    open('CONTRIBUTORS.rst').read() +
-    '\n' +
-    open('CHANGES.rst').read() +
-    '\n')
+    open("README.rst").read()
+    + "\n"
+    + "Contributors\n"
+    + "============\n"
+    + "\n"
+    + open("CONTRIBUTORS.rst").read()
+    + "\n"
+    + open("CHANGES.rst").read()
+    + "\n"
+)
 
 
 setup(
-    name='collective.emergency.alerts',
-    version='1.0.12',
+    name="collective.emergency.alerts",
+    version="1.0.12",
     description="Adds emergency alerts to the top of the site.  Can be from multiple feeds and local.",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 5.2",
+        "Framework :: Plone :: 6.2",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.12",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
-    keywords='Python Plone',
-    author='David Hietpas',
-    author_email='hietpasd@uwosh.edu',
-    url='https://pypi.python.org/pypi/collective.emergency.alerts',
-    license='GPL version 2',
+    keywords="Python Plone",
+    author="David Hietpas",
+    author_email="hietpasd@uwosh.edu",
+    url="https://pypi.python.org/pypi/collective.emergency.alerts",
+    license="GPL version 2",
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'plone.api',
-        'setuptools',
-        'z3c.jbot',
+        "plone.api",
+        "setuptools",
+        "z3c.jbot",
     ],
     extras_require={
-        'test': [
-            'plone.app.testing',
-            'plone.app.contenttypes',
-            'plone.app.robotframework[debug]',
+        "test": [
+            "plone.app.testing",
+            "plone.app.contenttypes",
+            "plone.app.robotframework[debug]",
         ],
     },
     entry_points="""
-    [z3c.autoinclude.plugin]
+    [plone.autoinclude.plugin]
     target = plone
     """,
 )

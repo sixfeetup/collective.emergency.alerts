@@ -1,50 +1,67 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
       metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
       i18n:domain="plone"
-	  lang="en">
-<body>
-    
-	<metal:content fill-slot="content-core">
+>
+  <body>
 
-        <div tal:condition="view/id">
-            <div tal:define="level python:view.alert.get('level')"
-                 class="emergencyAlert level-${level}">
-                <div class="alert-title" tal:content="python: view.alert.get('title')">Alert Title</div>
-                <div class="alert-body" tal:content="structure python: view.alert.get('body')">Alert Body</div>
-            </div>
+    <metal:content fill-slot="content-core">
+
+      <div tal:condition="view/id">
+        <div class="emergencyAlert level-${level}"
+             tal:define="
+               level python:view.alert.get('level');
+             "
+        >
+          <div class="alert-title"
+               tal:content="python: view.alert.get('title')"
+          >Alert Title</div>
+          <div class="alert-body"
+               tal:content="structure python: view.alert.get('body')"
+          >Alert Body</div>
         </div>
-        
-        <tal:list tal:condition="not: view/id">
-            <h2>Active Alerts</h2>
-            <div id="alerts-active">
-                <tal:warnings condition="not: view/error"
-                              repeat="alert view/active_alerts">
-                    <div class="emergencyAlert level-${alert/level}">
-                        <div class="alert-title" tal:content="python: alert.get('title')">Alert Title</div>
-                        <div class="alert-body" tal:content="structure python: alert.get('body')">Alert Body</div>
-                    </div>
-                </tal:warnings>
+      </div>
+
+      <tal:list tal:condition="not: view/id">
+        <h2>Active Alerts</h2>
+        <div id="alerts-active">
+          <tal:warnings condition="not: view/error"
+                        repeat="alert view/active_alerts"
+          >
+            <div class="emergencyAlert level-${alert/level}">
+              <div class="alert-title"
+                   tal:content="python: alert.get('title')"
+              >Alert Title</div>
+              <div class="alert-body"
+                   tal:content="structure python: alert.get('body')"
+              >Alert Body</div>
             </div>
-            
-            <h2>Expired and Inactive Alerts</h2>
-            <div id="alerts-inactive">
-                <tal:warnings condition="not: view/error"
-                              repeat="alert view/inactive_alerts">
-                    <div class="emergencyAlert level-${alert/level}">
-                        <div tal:content="python: alert.get('title')">Error Title</div>
-                        <div tal:content="structure python: alert.get('body')">Error Body</div>
-                    </div>
-                </tal:warnings>
+          </tal:warnings>
+        </div>
+
+        <h2>Expired and Inactive Alerts</h2>
+        <div id="alerts-inactive">
+          <tal:warnings condition="not: view/error"
+                        repeat="alert view/inactive_alerts"
+          >
+            <div class="emergencyAlert level-${alert/level}">
+              <div tal:content="python: alert.get('title')">Error Title</div>
+              <div tal:content="structure python: alert.get('body')">Error Body</div>
             </div>
-        </tal:list>
-    
-        <div class="eas-error" tal:condition="view/error">
+          </tal:warnings>
+        </div>
+      </tal:list>
+
+      <div class="eas-error"
+           tal:condition="view/error"
+      >
             No alert was found with this id
-        </div>
-    
-	</metal:content>
+      </div>
 
-</body>
+    </metal:content>
+
+  </body>
 </html>

@@ -1,9 +1,11 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-  i18n_domain="collective.emergency.alerts">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="collective.emergency.alerts"
+    >
 
-    <permission
+  <permission
       id="alerts.ManageEmergencyMessage"
       title="Manage emergency alert"
-    />
+      />
 
 </configure>

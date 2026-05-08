@@ -3,4 +3,5 @@
 
 from zope.i18nmessageid import MessageFactory
 
-_ = MessageFactory('collective.emergency.alerts')
+
+_ = MessageFactory("collective.emergency.alerts")

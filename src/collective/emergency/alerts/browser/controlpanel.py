@@ -1,65 +1,71 @@
+from plone import api
+from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
+from plone.app.registry.browser.controlpanel import RegistryEditForm
+from plone.protect.utils import addTokenToUrl
+from plone.registry.interfaces import IRegistry
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope import schema
 from zope.component import getUtility
 from zope.interface import Interface
-from zope import schema
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from plone import api
-from plone.app.registry.browser.controlpanel import RegistryEditForm
-from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
-from plone.registry.interfaces import IRegistry
-from plone.protect.utils import addTokenToUrl
 
 
 class IEmergencyAlert(Interface):
-    """ Marker """
-    global_feeds = schema.List(title=u"Global Alert Feeds",
-                               description=u"",
-                               default=[],
-                               value_type=schema.TextLine(required=True),
-                               )
-    alerts = schema.Dict(title=u"Alerts",
-                         description=u"",
-                         default={},
-                         key_type=schema.TextLine(title=u"Alert ID"),
-                         value_type=schema.Dict(
-                             title=u"Obj",
-                             default={},
-                             key_type=schema.TextLine(title=u"Name"),
-                             value_type=schema.TextLine(required=True),),
-                         )
+    """Marker"""
+
+    global_feeds = schema.List(
+        title="Global Alert Feeds",
+        description="",
+        default=[],
+        value_type=schema.TextLine(required=True),
+    )
+    alerts = schema.Dict(
+        title="Alerts",
+        description="",
+        default={},
+        key_type=schema.TextLine(title="Alert ID"),
+        value_type=schema.Dict(
+            title="Obj",
+            default={},
+            key_type=schema.TextLine(title="Name"),
+            value_type=schema.TextLine(required=True),
+        ),
+    )
 
 
 class EmergencyAlertEditForm(RegistryEditForm):
-
     schema = IEmergencyAlert
-    label = u"Emergency Alert System"
-    template = ViewPageTemplateFile('controlpanel.pt')
+    label = "Emergency Alert System"
+    template = ViewPageTemplateFile("controlpanel.pt")
 
     def __call__(self):
-        self.request.set('disable_border', 1)
+        self.request.set("disable_border", 1)
         return self.template()
 
     def get(self, name):
         registry = getUtility(IRegistry)
-        return registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.global_feeds']
+        return registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.global_feeds"
+        ]
 
     def get_alerts(self):
         registry = getUtility(IRegistry)
-        alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        alerts = registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ]
         if alerts:
             return alerts
         return {}
 
     def fmt_daterange(self, obj):
-        fmt = 'Starts: '
-        if obj['start']:
-            fmt += obj['start']
+        fmt = "Starts: "
+        if obj["start"]:
+            fmt += obj["start"]
         else:
             fmt += "Now"
 
         fmt += " - Ends: "
-        if obj['end']:
-            fmt += obj['end']
+        if obj["end"]:
+            fmt += obj["end"]
         else:
             fmt += "Never"
         return fmt
@@ -73,15 +79,14 @@ class EmergencyAlertEditForm(RegistryEditForm):
 
 
 class EmergencyAlertManager(ControlPanelFormWrapper):
-
     form = EmergencyAlertEditForm
-    path = 'collective.emergency.alerts.browser.controlpanel.IEmergencyAlert'
+    path = "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert"
 
     def __call__(self):
-        if 'form.feed.global.save' in self.request.form:
+        if "form.feed.global.save" in self.request.form:
             registry = getUtility(IRegistry)
 
-            feeds = self.request.form.get('form.feed.global.target', '')
+            feeds = self.request.form.get("form.feed.global.target", "")
             if isinstance(feeds, str):
                 feeds = [feeds]
 
@@ -89,5 +94,5 @@ class EmergencyAlertManager(ControlPanelFormWrapper):
             for x in feeds:
                 if x:
                     global_feeds.append(x)
-            registry[self.path + '.global_feeds'] = global_feeds
+            registry[self.path + ".global_feeds"] = global_feeds
         return ControlPanelFormWrapper.__call__(self)

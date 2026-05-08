@@ -1,57 +1,78 @@
 from plone import api
+from plone.registry.interfaces import IRegistry
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
-from plone.registry.interfaces import IRegistry
-import datetime, time, hashlib, json
+
+import datetime
+import hashlib
+import json
+import time
 
 
 class Alert(object):
-
     id = None
     _struct = {}
 
     def __init__(self, id):
         self._struct = {
-            u'title': u'',
-            u'body': u'',
-            u'start': u'',
-            u'end': u'',
-            u'level': u'0',
-            u'is_active': u'True',
-            u'url': u'',
+            "title": "",
+            "body": "",
+            "start": "",
+            "end": "",
+            "level": "0",
+            "is_active": "True",
+            "url": "",
         }
         if id:
             registry = getUtility(IRegistry)
-            alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+            alerts = registry[
+                "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+            ]
             self.id = id
             if self.id in alerts:
                 self._struct = alerts[self.id]
         else:
-            self.id = hashlib.sha1(str(time.time()).encode('utf-8')).hexdigest()
+            self.id = hashlib.sha1(str(time.time()).encode("utf-8")).hexdigest()
 
     def save(self):
         registry = getUtility(IRegistry)
-        alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        alerts = registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ]
         if not alerts:
             alerts = {}
         alerts[self.id] = self._struct
-        alerts[self.id]['body'] = alerts[self.id]['body'].replace('\r\n', '')
-        alerts[self.id]['end'] = alerts[self.id]['end'] or u'2050-12-25T13:12'
-        alerts[self.id]['start'] = alerts[self.id]['start'] or u'1999-12-25T13:12'
-        registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts'] = alerts
+        alerts[self.id]["body"] = alerts[self.id]["body"].replace("\r\n", "")
+        alerts[self.id]["end"] = alerts[self.id]["end"] or "2050-12-25T13:12"
+        alerts[self.id]["start"] = alerts[self.id]["start"] or "1999-12-25T13:12"
+        registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ] = alerts
 
         # Force the save of a dictionary to be persistant
-        registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts'] = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ] = registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ]
 
     def delete(self):
         registry = getUtility(IRegistry)
-        alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        alerts = registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ]
         del alerts[self.id]
-        registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts'] = alerts
+        registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ] = alerts
 
         # Force the save of a dictionary to be persistant
-        registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts'] = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ] = registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ]
 
     def set(self, name, value):
         self._struct[name] = value
@@ -69,51 +90,65 @@ class Alert(object):
 
 
 class AlertEdit(BrowserView):
-
-    template = ViewPageTemplateFile('edit_alert.pt')
+    template = ViewPageTemplateFile("edit_alert.pt")
     alert = None
     error = False
 
     def __call__(self):
         self.alert = None  # default
         self.error = None  # default
-        id = self.request.form.get('id', None)
+        id = self.request.form.get("id", None)
 
         try:
             self.alert = Alert(id)
         except Exception as e:
             self.error = True
 
-        if 'form.widgets.submit' in self.request.form:
-            self.alert.set(u'title', self.request.form.get('form.widgets.title', 'Missing title'))
-            self.alert.set(u'body', self.request.form.get('form.widgets.body', 'No details available at this time'))
+        if "form.widgets.submit" in self.request.form:
+            self.alert.set(
+                "title", self.request.form.get("form.widgets.title", "Missing title")
+            )
+            self.alert.set(
+                "body",
+                self.request.form.get(
+                    "form.widgets.body", "No details available at this time"
+                ),
+            )
 
-            self.alert.set(u'start', self.request.form.get('form.widgets.start', ''))
-            self.alert.set(u'end', self.request.form.get('form.widgets.end', ''))
-            self.alert.set(u'url', self.portal.absolute_url() + '/alert?id=' + str(self.alert.id))
+            self.alert.set("start", self.request.form.get("form.widgets.start", ""))
+            self.alert.set("end", self.request.form.get("form.widgets.end", ""))
+            self.alert.set(
+                "url", self.portal.absolute_url() + "/alert?id=" + str(self.alert.id)
+            )
 
-            active = u'False'
-            if self.request.form.get('form.widgets.active', 'off') == 'on':
-                active = u'True'
-            self.alert.set(u'is_active', active)
+            active = "False"
+            if self.request.form.get("form.widgets.active", "off") == "on":
+                active = "True"
+            self.alert.set("is_active", active)
 
-            self.alert.set(u'level', self.request.form.get('form.widgets.level', '0'))
+            self.alert.set("level", self.request.form.get("form.widgets.level", "0"))
 
             self.alert.save()
-            return self.request.response.redirect(self.portal.absolute_url() + '/@@emergency_manager')
+            return self.request.response.redirect(
+                self.portal.absolute_url() + "/@@emergency_manager"
+            )
 
-        if 'alert.state' in self.request.form:
-            state = self.request.form.get('alert.state')
-            if state == 'False':
-                self.alert.set('is_active', u'True')
+        if "alert.state" in self.request.form:
+            state = self.request.form.get("alert.state")
+            if state == "False":
+                self.alert.set("is_active", "True")
             else:
-                self.alert.set('is_active', u'False')
+                self.alert.set("is_active", "False")
             self.alert.save()
-            return self.request.response.redirect(self.portal.absolute_url() + '/@@emergency_manager')
+            return self.request.response.redirect(
+                self.portal.absolute_url() + "/@@emergency_manager"
+            )
 
-        if 'alert.remove' in self.request.form:
+        if "alert.remove" in self.request.form:
             self.alert.delete()
-            return self.request.response.redirect(self.portal.absolute_url() + '/@@emergency_manager')
+            return self.request.response.redirect(
+                self.portal.absolute_url() + "/@@emergency_manager"
+            )
 
         return self.template()
 
@@ -124,27 +159,26 @@ class AlertEdit(BrowserView):
 
 def in_date_range(alert):
     """Returns True or False based on whether or not
-       alert is within the set date range. Returns
-       True when no dates are set.
+    alert is within the set date range. Returns
+    True when no dates are set.
     """
     now = datetime.datetime.now()
-    alert_start = alert.get('start') or '1999-12-25T13:12'
-    alert_end = alert.get('end') or '2050-12-25T13:12'
-    start = datetime.datetime.strptime(alert_start, '%Y-%m-%dT%H:%M')
-    end = datetime.datetime.strptime(alert_end, '%Y-%m-%dT%H:%M')
+    alert_start = alert.get("start") or "1999-12-25T13:12"
+    alert_end = alert.get("end") or "2050-12-25T13:12"
+    start = datetime.datetime.strptime(alert_start, "%Y-%m-%dT%H:%M")
+    end = datetime.datetime.strptime(alert_end, "%Y-%m-%dT%H:%M")
     return start <= now and now <= end
 
 
 class AlertView(BrowserView):
-
-    template = ViewPageTemplateFile('alert.pt')
+    template = ViewPageTemplateFile("alert.pt")
     alert = None
 
     def __call__(self):
 
         self.alert = None  # default
         self.error = None  # default
-        self.id = self.request.form.get('id', None)
+        self.id = self.request.form.get("id", None)
         self.active_alerts = []
         self.inactive_alerts = []
 
@@ -157,9 +191,11 @@ class AlertView(BrowserView):
             return self.template()
 
         registry = getUtility(IRegistry)
-        registry_alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        registry_alerts = registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ]
         for alert in registry_alerts.values():
-            if alert['is_active'] == 'True' and in_date_range(alert):
+            if alert["is_active"] == "True" and in_date_range(alert):
                 self.active_alerts.append(alert)
             else:
                 self.inactive_alerts.append(alert)
@@ -167,18 +203,23 @@ class AlertView(BrowserView):
 
 
 class AlertsBroadcaster(BrowserView):
-
     def __call__(self):
         data = []
         now = datetime.datetime.now()
 
         registry = getUtility(IRegistry)
-        alerts = registry['collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts']
+        alerts = registry[
+            "collective.emergency.alerts.browser.controlpanel.IEmergencyAlert.alerts"
+        ]
         if alerts:
             for k, v in alerts.items():
-                if v['is_active'] == 'True':
-                    start = datetime.datetime.strptime(self.dict_get(v, 'start', '1999-12-25T13:12'), '%Y-%m-%dT%H:%M')
-                    end = datetime.datetime.strptime(self.dict_get(v, 'end', '2050-12-25T13:12'), '%Y-%m-%dT%H:%M')
+                if v["is_active"] == "True":
+                    start = datetime.datetime.strptime(
+                        self.dict_get(v, "start", "1999-12-25T13:12"), "%Y-%m-%dT%H:%M"
+                    )
+                    end = datetime.datetime.strptime(
+                        self.dict_get(v, "end", "2050-12-25T13:12"), "%Y-%m-%dT%H:%M"
+                    )
                     if start <= now and now <= end:
                         data.append(v)
 
@@ -186,8 +227,8 @@ class AlertsBroadcaster(BrowserView):
         # self.request.response.setHeader('ETag', md5.new(str(data)).hexdigest())
         # self.request.response.setHeader('Cache-Control', 'max-age=60, s-maxage=60, public, must-revalidate')
         # self.request.response.setHeader('Vary', 'Accept-Encoding')
-        self.request.response.setHeader('Content-Type', 'application/json')
-        self.request.response.setHeader('Access-Control-Allow-Origin', '*')
+        self.request.response.setHeader("Content-Type", "application/json")
+        self.request.response.setHeader("Access-Control-Allow-Origin", "*")
         return self.toJSON(data)
 
     def dict_get(self, v, key, default):
@@ -200,4 +241,4 @@ class AlertsBroadcaster(BrowserView):
         return json.dumps(data)
 
     def toJSONP(self, data):
-        return '_EAS.loaded(' + self.toJSON(data) + ')'
+        return "_EAS.loaded(" + self.toJSON(data) + ")"
