@@ -214,12 +214,15 @@ class AlertsBroadcaster(BrowserView):
         if alerts:
             for k, v in alerts.items():
                 if v["is_active"] == "True":
-                    start = datetime.datetime.strptime(
-                        self.dict_get(v, "start", "1999-12-25T13:12"), "%Y-%m-%dT%H:%M"
-                    )
-                    end = datetime.datetime.strptime(
-                        self.dict_get(v, "end", "2050-12-25T13:12"), "%Y-%m-%dT%H:%M"
-                    )
+                    start = self.dict_get(v, "start", "1999-12-25T13:12")
+                    end = self.dict_get(v, "end", "2050-12-25T13:12")
+                    try:
+                        start = datetime.datetime.strptime(start, "%Y-%m-%dT%H:%M")
+                        end = datetime.datetime.strptime(end, "%Y-%m-%dT%H:%M")
+                    except ValueError:
+                        # handle migrated data with different format
+                        start = datetime.datetime.strptime(start, "%Y-%m-%d %H:%M")
+                        end = datetime.datetime.strptime(end, "%Y-%m-%d %H:%M")
                     if start <= now and now <= end:
                         data.append(v)
 
